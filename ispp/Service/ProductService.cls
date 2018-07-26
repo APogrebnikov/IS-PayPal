@@ -6,24 +6,24 @@ Class ispp.Service.ProductService
 		set status = $$$OK
 		
 		try{
-			set sql = "SELECT ID, Name, Serial, Description, Price FROM ispp.data.Product"
+			//set sql = "SELECT ID, Name, Serial, Description, Price FROM ispp_data.Product"
+			set sql = "SELECT id FROM ispp_data.Product"
 			set rs = ##class(%ResultSet).%New("%DynamicQuery:SQL")
 			$$$ThrowOnError(rs.Prepare(sql))
-			$$$ThrowOnError(rs.Execute(ID, Name, Serial, Description, Price))
+			$$$ThrowOnError(rs.Execute())
 			
-			set result = {}
-			set result.products = []
+			set result = []
 			while (rs.%Next() '= 0) {
-				set newProduct = rs.GetObject()
+				#dim product As ispp.data.Product = rs.GetObject()
 				set proxy = {
-					"id": (newProduct.ID),
-					"serial": (newProduct.Serial),
+					"id": (product.%Id()),
+					"serial": (product.Serial),
 					"name": (product.Name),
 					"description": (product.Description),
 					"price": (product.Price),
 					"image": "http://joygayler.com/wp-content/uploads/2014/03/Product_Chair-1024x791.jpg"
 				}
-				do result.products.%Push(proxy)
+				do result.%Push(proxy)
 			}
 			write result.%ToJSON()
 		}
