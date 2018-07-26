@@ -22,7 +22,7 @@ ClassMethod JSONStreamToObjectArray(pStream, Output pArray, pClass As %String, p
 
 ClassMethod ObjectToJSONStream(pObject As %RegisteredObject, ByRef pStream, pFormat As %String = "iw") As %Status [ CodeMode = expression ]
 {
-##class(%ZEN.Auxiliary.jsonProvider).%WriteJSONStreamFromObject(.pStream,.pObject,,,,pFormat)
+	##class(%ZEN.Auxiliary.jsonProvider).%WriteJSONStreamFromObject(.pStream,.pObject,,,,pFormat)
 }
 
 }

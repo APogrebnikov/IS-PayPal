@@ -86,7 +86,7 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 	    }
 			    
 		set consumedJSON = structure.%ToJSON()
-		w consumedJSON
+		
 		set httpRequestIn = ##class(%Net.HttpRequest).%New()
 		set httpRequestIn.ContentType="application/json"
       	set httpRequestIn.Port=##class(Settings).#PAYPORT
@@ -106,14 +106,12 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 	    quit:$$$ISERR(sc)
 	    
      	if $IsObject(httpResponse) {
-     		w httpResponse.StatusCode
         	set response = ##class(ispp.message.OrderResponse).%New()
          	set sc = ##class(ispp.utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
          	if (sc){
 	         	for i=1:1:proxy.links.Count() {
 		         	if (proxy.links.GetAt(i).rel = "approval_url") {
 			         	set response.Url = proxy.links.GetAt(i).href
-			         	w ">>"_response.Url_"<<"
 		         	}
 	         	}
 	        }
