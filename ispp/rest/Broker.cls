@@ -27,7 +27,8 @@ ClassMethod TestPay()
 	set sc=##class(ispp.utils.Token).GetToken(.response) // токен
 	set obj = {}.%FromJSON($ZCVT(%request.Content.Read($$$MaxStringLength),"I","UTF8")) // информация о заказе с клиента
 	#dim order As ispp.message.OrderRequest
-	set order=##class(ispp.Service.OrderService).ExecuteOrder(response, obj)
+	set order=##class(ispp.Service.OrderService).ExecuteOrder(obj)
+	set order.AccessToken=response.AccessToken
 	
 	set sc=##class(ispp.utils.Payment).GetRedirect(order,.paymentResponse)
 	

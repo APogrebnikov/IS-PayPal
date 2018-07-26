@@ -1,10 +1,9 @@
 Class ispp.Service.OrderService
 {
- 	ClassMethod ExecuteOrder(responce As ispp.message.TokenResponse, obj As %DynamicObject) As ispp.message.OrderRequest 
+ 	ClassMethod ExecuteOrder(obj As %DynamicObject) As ispp.message.OrderRequest 
  	{
  		#dim order As ispp.message.OrderRequest=##class(ispp.message.OrderRequest).%New()
  		
- 		set order.AccessToken=response.AccessToken
  		//значение по дефолту
  		set order.Currency="RUB"
  		set order.Shipping = 0.03
