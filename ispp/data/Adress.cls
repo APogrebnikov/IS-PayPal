@@ -1,14 +1,20 @@
 Class ispp.data.Adress Extends %Persistent
 {
+Property RecipientName As %String;
+
 Property Line1 As %String;
+
+Property Line2 As %String;
 
 Property City As %String;
 
-Property State As %String;
+Property CountryCode As %String;
 
 Property PostalCode As %String;
 
-Property CountryCode As %String;
+Property Phone As %String;
+
+Property State As %String;
 
 Storage Default
 {
@@ -30,6 +36,15 @@ Storage Default
 </Value>
 <Value name="6">
 <Value>CountryCode</Value>
+</Value>
+<Value name="7">
+<Value>RecipientName</Value>
+</Value>
+<Value name="8">
+<Value>Line2</Value>
+</Value>
+<Value name="9">
+<Value>Phone</Value>
 </Value>
 </Data>
 <DataLocation>^ispp.data.AdressD</DataLocation>

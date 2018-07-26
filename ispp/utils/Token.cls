@@ -1,8 +1,8 @@
 Class ispp.utils.Token
 {
 
-///Get Init PayPal token For this ClientID
-Method GetToken(Output response As ispp.message.TokenResponse) As %Status
+/// Get Init PayPal token For this ClientID
+ClassMethod GetToken(Output response As ispp.message.TokenResponse) As %Status
 {
 	try {
 		set URL=##class(Settings).#AUTHURL
@@ -37,7 +37,7 @@ Method GetToken(Output response As ispp.message.TokenResponse) As %Status
         	// Instantiate the response object
         	set response = ##class(ispp.message.TokenResponse).%New()
         	// Convert JSON into a Proxy Cache Object
-         	set sc = ##class(utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
+         	set sc = ##class(ispp.utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
          	if (sc){
 	         	set response.AccessToken = proxy."access_token"
 	        }
@@ -47,6 +47,5 @@ Method GetToken(Output response As ispp.message.TokenResponse) As %Status
 	}
 	quit sc
 }
-
 
 }
