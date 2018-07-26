@@ -1,45 +1,52 @@
 Class ispp.utils.Token
 {
 
-Method GenerateToken(pRequest As ispp.message.TokenRequest, Output pResponse As ispp.message.TokenResponse) As %Status
+///Get Init PayPal token For this ClientID
+Method GetToken(Output response As ispp.message.TokenResponse) As %Status
 {
 	try {
-		set tURL = ..Adapter.URL
-		set object = ##class(%Object).%New()
-		set object.ClientId = "ClietnId"
-		set object.Secret = "Secret"
+		set URL=##class(Settings).#AUTHURL
+	
+		set object = {}
+		set object.ClientId = ##class(Settings).#CLIENTID
+		set object.Secret = ##class(Settings).#SECRET
+		
 		set oauth = "Basic "_$System.Encryption.Base64Encode(object.ClientId_":"_object.Secret)
 		set oauth = $REPLACE(oauth, $c(13,10), "")
 		
-		set tHttpRequestIn = ##class(%Net.HttpRequest).%New()
-		set tHttpRequestIn.ContentType="application/x-www-form-urlencoded"
-      	set tHttpRequestIn.Port=..Adapter.HTTPPort
-     	set tHttpRequestIn.Server=..Adapter.HTTPServer
-     	set tHttpRequestIn.SSLConfiguration="PayPal"
-     	set tHttpRequestIn.Https = 1
-     	set tHttpRequestIn.ContentCharset="utf-8"
-     	do tHttpRequestIn.InsertFormData("grant_type","client_credentials")
-     	do tHttpRequestIn.SetHeader("Authorization", oauth)
+		set httpRequestIn = ##class(%Net.HttpRequest).%New()
+		set httpRequestIn.ContentType="application/x-www-form-urlencoded"
+      	set httpRequestIn.Port=##class(Settings).#PAYPORT
+     	set httpRequestIn.Server=##class(Settings).#BASEURL
+     	set httpRequestIn.SSLConfiguration="PayPal"
+     	set httpRequestIn.Https = 1
+     	set httpRequestIn.ContentCharset="utf-8"
      	
-     	set tSC = tHttpRequestIn.Post(tURL)
-     	set tHttpResponse = tHttpRequestIn.HttpResponse
-     	If $$$ISERR(tSC)&&$IsObject(tHttpResponse)&&$IsObject(tHttpResponse.Data)&&tHttpResponse.Data.Size {
-	     	Set tSC=$$$ERROR($$$EnsErrGeneral,$$$StatusDisplayString(tSC)_":"_tHttpResponse.Data.Read())
-	     	}
-	    Quit:$$$ISERR(tSC)
-     	If $IsObject(tHttpResponse) {
+     	do httpRequestIn.InsertFormData("grant_type","client_credentials")
+     	do httpRequestIn.SetHeader("Authorization", oauth)
+     	
+     	set sc = httpRequestIn.Post(URL)
+     	set httpResponse = httpRequestIn.HttpResponse
+     	
+     	if $$$ISERR(sc) && $IsObject(httpResponse) && $IsObject(httpResponse.Data) && httpResponse.Data.Size {
+	     	set sc=httpResponse.Data.Read()
+	    }
+	    quit:$$$ISERR(sc)
+	    
+     	if $IsObject(httpResponse) {
         	// Instantiate the response object
-        	set pResponse = ##class(PayPal.Message.TokenResponse).%New()
+        	set response = ##class(ispp.message.TokenResponse).%New()
         	// Convert JSON into a Proxy Cache Object
-         	set tSC = ..JSONStreamToObject(tHttpResponse.Data, .tProxy)
-         	if (tSC){
-	         	set pResponse.AccessToken = tProxy."access_token"
+         	set sc = ##class(utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
+         	if (sc){
+	         	set response.AccessToken = proxy."access_token"
 	        }
 	    }
-	} catch {
-		set tSC = $$$SystemError
+	} catch e {
+		set sc =  e.AsStatus()
 	}
-	quit tSC
+	quit sc
 }
+
 
 }
