@@ -8,7 +8,7 @@ ClassMethod Execute(request As ispp.message.ExecuteRequest, Output response As i
 		set object = {}
 		set object."payer_id" = request.PayerId
 		
-		set consumedJSON = object.%toJSON()
+		set consumedJSON = object.%ToJSON()
 		
 		set httpRequestIn = ##class(%Net.HttpRequest).%New()
 		set httpRequestIn.ContentType="application/json"
@@ -30,7 +30,7 @@ ClassMethod Execute(request As ispp.message.ExecuteRequest, Output response As i
 	    
      	If $IsObject(httpResponse) {
      	
-        	set response = ##class(PayPal.Message.ExecuteResponse).%New()
+        	set response = ##class(ispp.message.ExecuteResponse).%New()
         	
          	set sc = ##class(ispp.utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
          	if (sc){
