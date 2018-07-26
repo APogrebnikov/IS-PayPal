@@ -81,13 +81,11 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 		
 		set consumedJSON = structure.%ToJSON()
 		
-		w consumedJSON
-		
 		set httpRequestIn = ##class(%Net.HttpRequest).%New()
 		set httpRequestIn.ContentType="application/json"
       	set httpRequestIn.Port=##class(Settings).#PAYPORT
      	set httpRequestIn.Server=##class(Settings).#BASEURL
-     	set httpRequestIn.SSLConfiguration="PayPal"
+     	set httpRequestIn.SSLConfiguration=##class(Settings).#SSLCONF
      	set httpRequestIn.Https = 1
      	set httpRequestIn.ContentCharset="ISO-8859-1"
      	do httpRequestIn.EntityBody.Write(consumedJSON)

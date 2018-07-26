@@ -18,7 +18,7 @@ ClassMethod GetToken(Output response As ispp.message.TokenResponse) As %Status
 		set httpRequestIn.ContentType="application/x-www-form-urlencoded"
       	set httpRequestIn.Port=##class(Settings).#PAYPORT
      	set httpRequestIn.Server=##class(Settings).#BASEURL
-     	set httpRequestIn.SSLConfiguration="PayPal"
+     	set httpRequestIn.SSLConfiguration=##class(Settings).#SSLCONF
      	set httpRequestIn.Https = 1
      	set httpRequestIn.ContentCharset="utf-8"
      	

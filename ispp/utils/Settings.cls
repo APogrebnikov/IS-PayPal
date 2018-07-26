@@ -18,4 +18,7 @@ Parameter PAYMENTURL = "/v1/payments/payment";
 /// PayPal Port
 Parameter PAYPORT = 443;
 
+/// SSL Configuration name
+Parameter SSLCONF = "PayPal";
+
 }
