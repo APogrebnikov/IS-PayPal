@@ -2,8 +2,6 @@ Class ispp.data.Product Extends %Persistent
 {
 Property Name As %String;
 
-Property Cost As %String;
-
 Property Description As %String(MAXLEN = "");
 
 Property Serial As %String;
