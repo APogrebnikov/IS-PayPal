@@ -7,12 +7,13 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 	 <Route Url="/start" Method="POST" Call="PostStartPayment"/>
 	 <Route Url="/commit" Method="GET" Call="PostCommitPayment"/>
 	 <Route Url="/test" Method="GET" Call="Test"/>
+	 <Route Url="/get/product" Method="GET" Call="ispp.Service.ProductService:GetAll" />
 </Routes>
 }
 
 Method Test(pInput As %Library.AbstractStream, Output pOutput As %Stream.Object) As %Status
 {
-	Write "{""Status"": ""Оки доки"",""Message"":""АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ_абвгдежзийклмнопрстуфхцчшщъыьэюя""}"
+	Write "{""Status"": ""пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"",""Message"":""пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ""}"
     Quit $$$OK
 }
 }
