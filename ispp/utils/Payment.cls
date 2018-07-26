@@ -57,10 +57,23 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 			    "payment_options": {
 			      "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
 			    },
-			    "soft_descriptor": (request.SoftDescriptor),
-			    "item_list": {
-			      "items": (items),
-			      "shipping_address": {
+			    "soft_descriptor": (request.SoftDescriptor)
+			  }],
+			  "note_to_payer": (request.NoteToPayer),
+			  "redirect_urls": {
+			    "return_url": (request.ReturnUrl),
+			    "cancel_url": (request.CancelUrl)
+			  }
+			}
+			
+		set structure.transactions.%Get(0)."item_list"={
+			      "items": (items)
+	    }
+	    
+	    if (request.ShippingAddress'="")
+	    {
+	    	set structure.transactions.%Get(0)."item_list"."shipping_address"=
+	    		{
 			        "recipient_name": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.RecipientName)),
 			        "line1": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.Line1)),
 			        "line2": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.Line2)),
@@ -69,16 +82,9 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 			        "postal_code": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.PostalCode)),
 			        "phone": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.Phone)),
 			        "state": ($case(request.ShippingAddress, "":"", :request.ShippingAddress.State))
-			      }
-			    }
-			  }],
-			  "note_to_payer": (request.NoteToPayer),
-			  "redirect_urls": {
-			    "return_url": (request.ReturnUrl),
-			    "cancel_url": (request.CancelUrl)
-			  }
-			}
-		
+			     }
+	    }
+			    
 		set consumedJSON = structure.%ToJSON()
 		
 		set httpRequestIn = ##class(%Net.HttpRequest).%New()
@@ -100,14 +106,12 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 	    quit:$$$ISERR(sc)
 	    
      	if $IsObject(httpResponse) {
-     		w httpResponse.StatusCode
         	set response = ##class(ispp.message.OrderResponse).%New()
          	set sc = ##class(ispp.utils.Common).JSONStreamToObject(httpResponse.Data, .proxy)
          	if (sc){
 	         	for i=1:1:proxy.links.Count() {
 		         	if (proxy.links.GetAt(i).rel = "approval_url") {
 			         	set response.Url = proxy.links.GetAt(i).href
-			         	w ">>"_response.Url_"<<"
 		         	}
 	         	}
 	        }

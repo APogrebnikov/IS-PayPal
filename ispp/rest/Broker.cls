@@ -80,7 +80,7 @@ ClassMethod TestPay()
 ClassMethod PostCommitPayment() As %Status
 {
 	set sc=$$$OK
-	set answer = "Платеж "_%request.Get("paymentId")_" успешно проведен"
+	set answer = "<h1>Платеж "_%request.Get("paymentId")_" успешно проведен</h1>"
 	write $ZCVT(answer, "I", "UTF8") 
 	set inner = ##class(ispp.message.ExecuteRequest).%New()
 	set inner.PayerId=%request.Get("PayerID")
