@@ -1,18 +1,19 @@
 Class ispp.data.Details Extends %Persistent
 {
-	Property Subtotal As %String;
-	
-	Property Shipping As %String;
-	
-	Property Tax As %String;
-	
-	Property Handlingfee As %String;
-	
-	Property ShippingDiscount As %String;
-	
-	Property Insurance As %String;
-	
-	Property GiftWrap As %String;
+Property Subtotal As %String;
+
+Property Shipping As %String;
+
+Property Tax As %String;
+
+Property Handlingfee As %String;
+
+Property ShippingDiscount As %String;
+
+Property Insurance As %String;
+
+Property GiftWrap As %String;
+
 Storage Default
 {
 <Data name="DetailsDefaultData">
