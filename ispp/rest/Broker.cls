@@ -11,7 +11,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 	 <Route Url="/get/product" Method="GET" Call="ispp.Service.ProductService:GetAll" />
 	 <Route Url="/test" Method="GET" Call="Test"/>
 	 <Route Url="/testpay" Method="GET" Call="TestPay"/>
-	 <Route Url="/add/order" Method="POST" Call="ispp.Service.OrderService:ExecuteOrder" />
+	 <Route Url="/add/order" Method="POST" Call="TestPay" />
 </Routes>
 }
 
@@ -24,10 +24,10 @@ ClassMethod Test(pInput As %Library.AbstractStream, Output pOutput As %Stream.Ob
 
 ClassMethod TestPay()
 {
-	set sc=##class(ispp.utils.Token).GetToken(.response)
-	
+	set sc=##class(ispp.utils.Token).GetToken(.response) // токен
+	set obj = {}.%FromJSON($ZCVT(%request.Content.Read($$$MaxStringLength),"I","UTF8")) // информация о заказе с клиента
 	#dim order As ispp.message.OrderRequest
-	set order=##class(ispp.Service.OrderService).ExecuteOrder(response)
+	set order=##class(ispp.Service.OrderService).ExecuteOrder(response, obj)
 	
 	set sc=##class(ispp.utils.Payment).GetRedirect(order,.paymentResponse)
 	
