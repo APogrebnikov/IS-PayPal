@@ -1,10 +1,7 @@
 Class ispp.Service.OrderService
 {
- 	ClassMethod ExecuteOrder(responce As ispp.message.TokenResponse) As ispp.message.OrderRequest 
+ 	ClassMethod ExecuteOrder(responce As ispp.message.TokenResponse, obj As %DynamicObject) As ispp.message.OrderRequest 
  	{
- 	
- 		set obj = {}.%FromJSON($ZCVT(%request.Content.Read($$$MaxStringLength),"I","UTF8"))
-
  		#dim order As ispp.message.OrderRequest=##class(ispp.message.OrderRequest).%New()
  		
  		set order.AccessToken=response.AccessToken
@@ -16,7 +13,7 @@ Class ispp.Service.OrderService
  		set order.Insurance = 0.01
  		set order.NoteToPayer="По любым вопросам идите лесом"
 		set order.CancelUrl="http://localhost:57772/cancel"
-		set order.ReturnUrl="http://localhost:57773/paypal/commit"
+		set order.ReturnUrl="http://localhost:57772/paypal/commit"
 		
 		set iter = obj.items.%GetIterator()
 		set newItem = {}
