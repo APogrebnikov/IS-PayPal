@@ -6,6 +6,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Routes>
 	 <Route Url="/start" Method="POST" Call="PostStartPayment"/>
 	 <Route Url="/commit" Method="GET" Call="PostCommitPayment"/>
+	 <Route Url="get/product" Method="GET" Call="ispp.Service.ProductService:GetAll" />
 	 <Route Url="/test" Method="GET" Call="Test"/>
 	 <Route Url="/testpay" Method="GET" Call="TestPay"/>
 </Routes>
@@ -17,7 +18,6 @@ ClassMethod Test(pInput As %Library.AbstractStream, Output pOutput As %Stream.Ob
 	Write $ZCVT(answer, "I", "UTF8")
     Quit $$$OK
 }
-
 ClassMethod TestPay()
 {
 	set sc=##class(ispp.utils.Token).GetToken(.response)
@@ -44,7 +44,6 @@ ClassMethod TestPay()
 	set adress.PostalCode="95131"
 	set adress.Phone="011862212345678"
 	set adress.State="CA"
-
 	set order.ShippingAddress=adress
 	
 	set order.Items=[]
