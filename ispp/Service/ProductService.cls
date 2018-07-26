@@ -6,7 +6,6 @@ Class ispp.Service.ProductService
 		set status = $$$OK
 		
 		try{
-			//set sql = "SELECT ID, Name, Serial, Description, Price FROM ispp_data.Product"
 			set sql = "SELECT id FROM ispp_data.Product"
 			set rs = ##class(%ResultSet).%New("%DynamicQuery:SQL")
 			$$$ThrowOnError(rs.Prepare(sql))
