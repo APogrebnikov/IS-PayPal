@@ -86,7 +86,7 @@ ClassMethod GetRedirect(request As ispp.message.OrderRequest, Output response As
 	    }
 			    
 		set consumedJSON = structure.%ToJSON()
-		
+		set ^json = consumedJSON
 		set httpRequestIn = ##class(%Net.HttpRequest).%New()
 		set httpRequestIn.ContentType="application/json"
       	set httpRequestIn.Port=##class(Settings).#PAYPORT

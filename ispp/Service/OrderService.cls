@@ -16,6 +16,7 @@ Class ispp.Service.OrderService
 		
 		set iter = obj.items.%GetIterator()
 		set newItem = {}
+		set order.Items=[]
 		while iter.%GetNext(, .value) {
 			set newItem.Name = value.item.name
 			set newItem.Description = value.item.description
@@ -31,12 +32,11 @@ Class ispp.Service.OrderService
 		set adress.Line1 = "4-й этаж"
 		set adress.Line2 = "у двери"
 		set adress.City = obj.city
-		set adress.CountryCode = obj.countryCode
-		set adress.PostalCode = obj.postcalCode
-		set adress.Phone = obj.code
-		set adress.State = obj.state
+		set adress.CountryCode = "US"
+		set adress.PostalCode = "95131"
+		set adress.Phone = "011862212345678"
+		set adress.State = "CA"
 		set order.ShippingAddress = adress
-		
 		return order	
 	}
  
