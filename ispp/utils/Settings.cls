@@ -21,4 +21,7 @@ Parameter PAYPORT = 443;
 /// SSL Configuration name
 Parameter SSLCONF = "PayPal";
 
+/// Store application URL
+Parameter STORURL = "http://localhost:57773";
+
 }

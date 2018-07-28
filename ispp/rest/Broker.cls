@@ -24,21 +24,19 @@ ClassMethod Test(pInput As %Library.AbstractStream, Output pOutput As %Stream.Ob
 
 ClassMethod TestPay()
 {
-	set sc=##class(ispp.utils.Token).GetToken(.response) // токен
-	set ^token=response.AccessToken
-	set obj = {}.%FromJSON($ZCVT(%request.Content.Read($$$MaxStringLength),"I","UTF8")) // информация о заказе с клиента
+	set sc=##class(ispp.utils.Token).GetToken(.response)
+
+	set obj = {}.%FromJSON($ZCVT(%request.Content.Read($$$MaxStringLength),"I","UTF8"))
+	
 	#dim order As ispp.message.OrderRequest
 	set order=##class(ispp.Service.OrderService).ExecuteOrder(obj)
 	set order.AccessToken=response.AccessToken
-	
+
 	set sc=##class(ispp.utils.Payment).GetRedirect(order,.paymentResponse)
-	set ^res=paymentResponse.Url
-	//w "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0JA01541SL8676849"
+	
 	if (paymentResponse'="")
 	{
 		w paymentResponse.Url
-	}else{
-		//w "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0JA01541SL8676849"
 	}
 	q $$$OK
 }
